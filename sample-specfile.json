@@ -1,0 +1,122 @@
+{
+    "auth": {
+        "cluster-ip"         : "10.10.10.10",
+        "user"               : "admin",
+        "pass"               : "abc123"
+    },
+    "aggregates": [
+        {
+            "aggregate-name" : "n1_aggr1",
+            "node-name"      : "AFF-01",
+            "disk-count"     : 23,
+            "disk-type"      : "SSD",
+            "raid-type"      : "raid_dp",
+            "raid-size"      : 23
+        },
+        {
+            "aggregate-name" : "n2_aggr1",
+            "node-name"      : "AFF-02",
+            "disk-count"     : 23,
+            "disk-type"      : "SSD",
+            "raid-type"      : "raid_dp",
+            "raid-size"      : 23
+        }
+    ],
+    "svm" : [
+        {
+            "name"           : "mongodb",
+            "security-style" : "unix",
+            "protocols"      : [ "fcp" ],
+            "aggr-list"      : [ "n1_aggr1", "n2_aggr1" ],
+            "network"        : [
+                {
+                    "lif-name"      : "mgmt_lif",
+                    "role"          : "data",
+                    "home-node"     : "AFF-01",
+                    "home-port"     : "e0i",
+                    "data-protocol" : "none",
+                    "ip-addr"       : "192.168.100.13",
+                    "netmask"       : "255.255.255.0"
+                },
+                {
+                    "lif-name"      : "fcp_n1_2a",
+                    "role"          : "data",
+                    "home-node"     : "AFF-01",
+                    "home-port"     : "2a",
+                    "data-protocol" : "fcp"
+                },
+                {
+                    "lif-name"      : "fcp_n2_2a",
+                    "role"          : "data",
+                    "home-node"     : "AFF-02",
+                    "home-port"     : "2a",
+                    "data-protocol" : "fcp"
+                },
+                {
+                    "lif-name"      : "fcp_n1_2b",
+                    "role"          : "data",
+                    "home-node"     : "AFF-01",
+                    "home-port"     : "2b",
+                    "data-protocol" : "fcp"
+                },
+                {
+                    "lif-name"      : "fcp_n2_2b",
+                    "role"          : "data",
+                    "home-node"     : "AFF-02",
+                    "home-port"     : "2b",
+                    "data-protocol" : "fcp"
+                }
+            ],
+            "igroups"   : [
+                {
+                    "igroup-name"    : "mongoserver01",
+                    "igroup-type"    : "fcp",
+                    "os-type"        : "linux",
+                    "initiator-list" : [
+                        "21:00:00:24:ff:4b:b6:02",
+                        "21:00:00:24:ff:4b:b6:03"
+                    ]
+                },
+                {
+                    "igroup-name"    : "mongoserver02",
+                    "igroup-type"    : "fcp",
+                    "os-type"        : "linux",
+                    "initiator-list" : [
+                        "21:00:00:24:ff:4b:b1:ca",
+                        "21:00:00:24:ff:4b:b1:cb"
+                    ]
+                },
+                {
+                    "igroup-name"    : "mongoserver03",
+                    "igroup-type"    : "fcp",
+                    "os-type"        : "linux",
+                    "initiator-list" : [
+                        "21:00:00:24:ff:4b:b4:5a",
+                        "21:00:00:24:ff:4b:b4:5b"
+                    ]
+                }
+            ],
+            "volumes" : [
+                {
+                    "vol-name"             : "mdb_data",
+                    "vol-size-gb"          : 384,
+                    "vol-quantity"         : 8,
+                    "aggr-list"            : ["n1_aggr1", "n2_aggr1"],
+                    "volume-type"          : "rw",
+                    "security-style"       : "unix",
+                    "snapshot-policy"      : "none",
+                    "pct-snapshot-reserve" : 0,
+                    "luns" : {
+                            "lun-name"                  : "mdb_lun_data",
+                            "lun-quantity"              : 24,
+                            "os-type"                   : "linux",
+                            "space-reservation-enabled" : "false",
+                            "space-allocation-enabled"  : "false",
+                            "igroup"                    : ["mongoserver01", "mongoserver02", "mongoserver03"],
+                            "map-to-all"                : false
+                    }
+                }
+            ]
+        }
+    ]
+}
