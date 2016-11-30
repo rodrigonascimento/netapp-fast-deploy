@@ -181,11 +181,14 @@ def deploy(cli_options):
                 else:
                     vol_spec['volume'] = doc_vol['vol-name']+str(dv)
                 vol_spec['containing-aggr-name'] = doc_vol['aggr-list'][(dv % len(doc_vol['aggr-list']))]
-                vol_spec['size'] = int(doc_vol['vol-size-gb']*1024*1024*1024)
                 vol_spec['volume-type'] = doc_vol['volume-type']
                 vol_spec['volume-security-style'] = doc_vol['security-style']
                 vol_spec['snapshot-policy'] = doc_vol['snapshot-policy']
                 vol_spec['percentage-snapshot-reserve'] = doc_vol['pct-snapshot-reserve']
+                if doc_vol['pct-snapshot-reserve'] == 0:
+                    vol_spec['size'] = int(doc_vol['vol-size-gb']*1024*1024*1024)
+                elif doc_vol['pct-snapshot-reserve'] > 0:
+                    vol_spec['size'] = int(doc_vol['vol-size-gb']*1024*1024*1024) - int((doc_vol['vol-size-gb']*1024*1024*1024)*doc_vol['pct-snapshot-reserve']/100)
 
                 vol = Volume(vol_spec)
                 rc = vol.create(ntapsvm)
@@ -203,7 +206,7 @@ def deploy(cli_options):
                         else:
                             lun_spec['path'] = '/vol/'+vol_spec['volume']+'/'+doc_vol['luns']['lun-name']+str(dl)
 
-                        lun_spec['size'] = int(((doc_vol['vol-size-gb'] - 2)/luns_per_vol)*1024*1024*1024)
+                        lun_spec['size'] = int((vol_spec['size'] - 1)/luns_per_vol)
                         lun_spec['ostype'] = doc_vol['luns']['os-type']
                         lun_spec['space-reservation-enabled'] = doc_vol['luns']['space-reservation-enabled']
                         lun_spec['space-allocation-enabled'] = doc_vol['luns']['space-allocation-enabled']
