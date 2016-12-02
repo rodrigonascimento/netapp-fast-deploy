@@ -1,7 +1,7 @@
-# netapp-fast-deploy
-NetApp Fast Deployment Tool
+# NetApp Fast Deployment (NFD)
+netapp-fast-deploy
 
-You can have your NetApp AFF Storage deployed in minutes using this tool.
+You can have your NetApp AFF/FAS system deployed in minutes using this tool.
 
 All you need is a storage-spec file, access to the NetApp Support website to download the NetApp Manageability Software Development Kit (NMSDK) and a coffee machine that would be able to brew your coffee in less than 1 minute.
 
@@ -15,65 +15,65 @@ You will have one storage-spec file per cluster that you would like to deploy us
 ```
 {
     "auth" : {
-        "cluster-ip" : "",
-        "user"       : "",
-        "pass"       : ""
+        "cluster-ip" : " ",
+        "user"       : " ",
+        "pass"       : " "
     },
     "aggregates" : [
         {
-            "aggregate-name" : "",
-            "node-name"      : "",
+            "aggregate-name" : " ",
+            "node-name"      : " ",
             "disk-count"     : 0,
-            "disk-type"      : "",
-            "raid-type"      : "",
+            "disk-type"      : " ",
+            "raid-type"      : " ",
             "raid-size"      : 0
         }
     ],
     "svm" : [
         {
-            "name"           : "",
-            "security-style" : "",
-            "protocols"      : [ "" ],
-            "aggr-list"      : [ "" ],
+            "name"           : " ",
+            "security-style" : " ",
+            "protocols"      : [ " " ],
+            "aggr-list"      : [ " ", " " ],
             "network"        : [
                 {
-                    "lif-name"      : "",
-                    "role"          : "",
-                    "home-node"     : "",
-                    "home-port"     : "",
-                    "data-protocol" : "",
-                    "ip-addr"       : "",
-                    "netmask"       : ""
+                    "lif-name"      : " ",
+                    "role"          : " ",
+                    "home-node"     : " ",
+                    "home-port"     : " ",
+                    "data-protocol" : " ",
+                    "ip-addr"       : " ",
+                    "netmask"       : " "
                 }
             ],
             "igroups" : [
                 {
-                    "igroup-name"    : "",
-                    "igroup-type"    : "",
-                    "os-type"        : ""
+                    "igroup-name"    : " ",
+                    "igroup-type"    : " ",
+                    "os-type"        : " "
                     "initiator-list" : [
-                        "",
-                        ""
+                        " ",
+                        " "
                     ]
                 }
             ],
             "volumes" : [
                 {
-                    "vol-name"             : "",
+                    "vol-name"             : " ",
                     "vol-size-gb"          : 0,
                     "vol-quantity"         : 0,
-                    "aggr-list"            : [ "" ],
-                    "volume-type"          : "",
-                    "security-style"       : "",
-                    "snapshot-policy"      : "",
+                    "aggr-list"            : [ " ", " " ],
+                    "volume-type"          : " ",
+                    "security-style"       : " ",
+                    "snapshot-policy"      : " ",
                     "pct-snapshot-reserve" : 0,
                     "luns" : {
                         "lun-name" : "",
                         "lun-quantity" : 0,
-                        "os-type"      : "",
-                        "space-reservation-enabled" : "",
-                        "space-allocation-enabled"  : "",
-                        "igroup"                    : [ "" ],
+                        "os-type"      : " ",
+                        "space-reservation-enabled" : " ",
+                        "space-allocation-enabled"  : " ",
+                        "igroup"                    : [ " ", " " ],
                         "map-to-all"                : true/false
                     }
                 }
@@ -82,3 +82,13 @@ You will have one storage-spec file per cluster that you would like to deploy us
     ]    
 }
 ```
+
+## How many entries can I have in the volumes key?
+Basically, volumes is an array where each position is a volume configuration. You can have thousands of entries here with you want or need to.
+
+## What "vol-quantity" means in the volumes key?
+vol-quantity is the amount of volumes of vol-size-gb that will be created by NFD.
+
+## What "aggr-list" means in the volumes key?
+It is the aggregate list where the volumes will be balanced across. E.g. if you have an entry on "volumes" where "vol-quantity" is 10 and you have 2 aggregates in the "aggr-list", NFD will create 5 volumes on each aggregate.
+ 
