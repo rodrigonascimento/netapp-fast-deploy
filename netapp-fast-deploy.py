@@ -206,7 +206,7 @@ def deploy(cli_options):
                         else:
                             lun_spec['path'] = '/vol/'+vol_spec['volume']+'/'+doc_vol['luns']['lun-name']+str(dl)
 
-                        lun_spec['size'] = int((vol_spec['size'] - 1)/luns_per_vol)
+                        lun_spec['size'] = int((vol_spec['size'] - 1073741824)/luns_per_vol)
                         lun_spec['ostype'] = doc_vol['luns']['os-type']
                         lun_spec['space-reservation-enabled'] = doc_vol['luns']['space-reservation-enabled']
                         lun_spec['space-allocation-enabled'] = doc_vol['luns']['space-allocation-enabled']
