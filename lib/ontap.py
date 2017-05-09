@@ -44,7 +44,7 @@
 
 from NaServer import NaServer, NaElement
 
-class Cluster:
+class ClusterSession:
     def __init__(self, cluster_ip, user, password, vserver=None):
         self.server = NaServer(cluster_ip, 1, 100)
         self.server.set_server_type('FILER')
@@ -229,6 +229,7 @@ class Volume:
         self.volume_security_style = vol_spec['volume-security-style']
         self.snapshot_policy = vol_spec['snapshot-policy']
         self.percentage_snapshot_reserve = vol_spec['percentage-snapshot-reserve']
+        self.efficiency_policy = vol_spec['efficiency-policy']
 
     def create(self, svm):
         api_call = NaElement('volume-create')
@@ -239,6 +240,7 @@ class Volume:
         api_call.child_add_string('volume-security-style', self.volume_security_style)
         api_call.child_add_string('snapshot-policy', self.snapshot_policy)
         api_call.child_add_string('percentage-snapshot-reserve', self.percentage_snapshot_reserve)
+        api_call.child_add_string('efficiency-policy', self.efficiency_policy)
 
         output = svm.run_command(api_call)
         return output.results_status(), output.sprintf()

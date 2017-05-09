@@ -7,7 +7,7 @@ import json
 import argparse
 import time
 sys.path.append('./lib')
-from ontap import Cluster, Aggregate, Svm, LogicalInterface, InitiatorGroup, Volume, Lun
+from ontap import ClusterSession, Aggregate, Svm, LogicalInterface, InitiatorGroup, Volume, Lun
 
 def timestamp():
     '''Getting a timestamp to log messages
@@ -36,7 +36,7 @@ def deploy(cli_options):
     stgconf = load_to_dict(cli_options.storage_spec)
 
     print '{} Connecting to {}'.format(timestamp(), stgconf['auth']['cluster-ip'])
-    ntapcluster = Cluster(stgconf['auth']['cluster-ip'], stgconf['auth']['user'], stgconf['auth']['pass'])
+    ntapcluster = ClusterSession(stgconf['auth']['cluster-ip'], stgconf['auth']['user'], stgconf['auth']['pass'])
 
     print '{} Validating node names:'.format(timestamp())
     cluster_nodes = ntapcluster.get_nodes()
@@ -79,7 +79,7 @@ def deploy(cli_options):
 
     for doc_svm in stgconf['svm']:
         #-- tunneling for vserver commands
-        ntapsvm = Cluster(stgconf['auth']['cluster-ip'], stgconf['auth']['user'], stgconf['auth']['pass'], doc_svm['name'])
+        ntapsvm = ClusterSession(stgconf['auth']['cluster-ip'], stgconf['auth']['user'], stgconf['auth']['pass'], doc_svm['name'])
         print '  SVM..............: {}'.format(doc_svm['name'])
         print '    Root volume    : {}'.format(doc_svm['name'] + '_root')
         print '    Aggregate      : {}'.format(doc_svm['aggr-list'][0])
@@ -185,6 +185,7 @@ def deploy(cli_options):
                 vol_spec['volume-security-style'] = doc_vol['security-style']
                 vol_spec['snapshot-policy'] = doc_vol['snapshot-policy']
                 vol_spec['percentage-snapshot-reserve'] = doc_vol['pct-snapshot-reserve']
+                vol_spec['efficiency-policy'] = doc_vol['efficiency-policy']
                 if doc_vol['pct-snapshot-reserve'] == 0:
                     vol_spec['size'] = int(doc_vol['vol-size-gb']*1024*1024*1024)
                 elif doc_vol['pct-snapshot-reserve'] > 0:
