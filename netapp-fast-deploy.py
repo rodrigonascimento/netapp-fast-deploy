@@ -171,6 +171,9 @@ def deploy(cli_options):
         for doc_vol in doc_svm['volumes']:
             if 'luns' in doc_vol.keys():
                 luns_per_vol = doc_vol['luns']['lun-quantity'] / doc_vol['vol-quantity']
+                if luns_per_vol == 0:
+                    luns_per_vol = 1
+
 
             dv = 0
             while dv < doc_vol['vol-quantity']:
