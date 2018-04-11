@@ -244,5 +244,6 @@ def main():
     if 'deploy' in cmd_args.action:
         deploy(cmd_args)
 
+
 if __name__ == '__main__':
     main()
