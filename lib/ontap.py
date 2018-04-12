@@ -1,48 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 """ONTAP Module :: Connect and execute admin tasks on FAS and AFF systems
 """
 
-##############################################################################################
-# Classes & Methods
-#   class Cluster:
-#       __init__(cluster_ip, user, password)
-#       get_nodes()
-#
-#   class Aggregate:
-#       __init__(aggr_specification)
-#       create(cluster)
-#       destroy(cluster)
-#
-#   class Svm:
-#       __init__(svm_specification)
-#       create(cluster)
-#       destroy(cluster)
-#
-#   class LogicalInterface:
-#       __init__(lif_specification)
-#       create(cluster)
-#       destroy(cluster)
-#
-#   class InitiatorGroup:
-#       __init__(ig_specification)
-#       create(svm)
-#       add_initiators(svm)
-#       destroy(svm)
-#
-#   class Volume:
-#       __init__(vol_specification)
-#       create(cluster)
-#       destroy(cluster)
-#
-#   class Lun:
-#       __init__(lun_specification)
-#       create(cluster)
-#       mapping(cluster)
-#       destroy(cluster)
-#
-##############################################################################################
-
 from NaServer import NaServer, NaElement
+
 
 class ClusterSession:
     def __init__(self, cluster_ip, user, password, vserver=None):
@@ -76,6 +37,7 @@ class ClusterSession:
                         nodes_list.append(n.child_get_string('node-name'))
             return nodes_list
 
+
 class Aggregate:
     def __init__(self, aggr_spec):
         self.node_name = aggr_spec['node-name']
@@ -103,6 +65,7 @@ class Aggregate:
 
     def destroy(self, cluster):
         pass
+
 
 class Svm:
     def __init__(self, svm_spec):
@@ -143,6 +106,7 @@ class Svm:
 
     def destroy(self, cluster):
         pass
+
 
 class LogicalInterface:
     def __init__(self, lif_spec):
@@ -189,6 +153,7 @@ class LogicalInterface:
     def destroy(self, cluster):
         pass
 
+
 class InitiatorGroup:
     def __init__(self, ig_spec):
         self.initiator_group_name = ig_spec['igroup-name']
@@ -220,6 +185,7 @@ class InitiatorGroup:
     def destroy(self, cluster):
         pass
 
+
 class Volume:
     def __init__(self, vol_spec):
         self.volume = vol_spec['volume']
@@ -247,6 +213,7 @@ class Volume:
 
     def destroy(self, svm):
         pass
+
 
 class Lun:
     def __init__(self, lun_spec):

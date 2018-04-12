@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 '''NetApp Fast Deployment command-line
 '''
 
@@ -6,13 +6,14 @@ import sys
 import json
 import argparse
 import time
-sys.path.append('./lib')
-from ontap import ClusterSession, Aggregate, Svm, LogicalInterface, InitiatorGroup, Volume, Lun
+from lib.ontap import ClusterSession, Aggregate, Svm, LogicalInterface, InitiatorGroup, Volume, Lun
+
 
 def timestamp():
     '''Getting a timestamp to log messages
     '''
     return time.strftime('%Y-%m-%d %H:%M:%S --')
+
 
 def load_to_dict(json_file):
     '''Loading a json file into a python dictionary
@@ -20,6 +21,7 @@ def load_to_dict(json_file):
     with open(json_file, 'r') as f:
         stgschema = json.load(f)
     return stgschema
+
 
 def cli_args():
     '''Parsing cli arguments
@@ -29,6 +31,7 @@ def cli_args():
     parser.add_argument('--action', choices=['deploy'], help='Actions to be executed')
 
     return parser.parse_args()
+
 
 def deploy(cli_options):
     '''Deploying an ONTAP based storage
@@ -237,6 +240,7 @@ def deploy(cli_options):
 
                         dl += 1
                 dv += 1
+
 
 def main():
     cmd_args = cli_args()
